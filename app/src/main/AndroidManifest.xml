@@ -19,7 +19,7 @@
         <!-- Base Activity -->
         <activity
             android:name=".custom.BaseActivity"
-            android:label="Base Activity"/>
+            android:label="Base Activity" />
 
         <!-- Main Activity -->
         <activity android:name=".view.MainActivity">

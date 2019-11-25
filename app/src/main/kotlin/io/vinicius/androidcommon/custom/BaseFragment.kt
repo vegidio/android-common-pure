@@ -9,6 +9,7 @@ import androidx.navigation.fragment.NavHostFragment
 open class BaseFragment : Fragment()
 {
     val navigation get() = NavHostFragment.findNavController(this)
+    private var isBoundViewModel = false
 
     override fun onActivityCreated(savedInstanceState: Bundle?)
     {
@@ -18,10 +19,13 @@ open class BaseFragment : Fragment()
         view?.isFocusable = true
 
         // Binding the views to the view model
-        bindViewModel()
+        if(!isBoundViewModel) bindViewModel()
     }
 
-    open fun bindViewModel() {}
+    open fun bindViewModel()
+    {
+        isBoundViewModel = true
+    }
 
     /*
      * Methods

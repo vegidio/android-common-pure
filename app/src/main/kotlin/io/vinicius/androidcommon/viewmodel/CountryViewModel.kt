@@ -2,8 +2,9 @@ package io.vinicius.androidcommon.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import io.vinicius.androidcommon.App
-import io.vinicius.androidcommon.model.Country
+import io.vinicius.androidcommon.constant.NetworkState
 import io.vinicius.androidcommon.service.CountriesService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -14,14 +15,24 @@ class CountryViewModel : ViewModel()
     @Inject
     lateinit var service: CountriesService
 
-    val country = MutableLiveData<Country>()
+    val state = MutableLiveData<NetworkState>()
 
     init { App.component.inject(this) }
 
-    suspend fun getCountryByCode(code: String)
-    {
-        country.value = withContext(Dispatchers.IO) {
-            return@withContext service.getByCountryCode(code)
+    fun getCountryByCode(code: String) = liveData {
+        state.value = NetworkState.LOADING
+
+        try {
+            val country = withContext(Dispatchers.IO) {
+                return@withContext service.getByCountryCode(code)
+            }
+
+            emit(Result.success(country))
+            state.value = NetworkState.IDLE
+
+        } catch (e: Throwable) {
+            emit(Result.failure(e))
+            state.value = NetworkState.ERROR
         }
     }
 }

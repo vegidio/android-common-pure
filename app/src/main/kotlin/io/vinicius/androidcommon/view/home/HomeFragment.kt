@@ -16,6 +16,7 @@ import timber.log.Timber
 class HomeFragment : BaseFragment()
 {
     companion object {
+        @Suppress("unused")
         fun newInstance() = HomeFragment()
     }
 
@@ -40,6 +41,8 @@ class HomeFragment : BaseFragment()
 
     override fun bindViewModel()
     {
+        super.bindViewModel()
+
         adapter.itemClick.observe(this, Observer {
             when(it) {
                 MenuOption.COUNTRY -> navigation.navigate(R.id.homeToCountry)
