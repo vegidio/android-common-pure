@@ -27,12 +27,12 @@ class CountryViewModel : ViewModel()
                 return@withContext service.getByCountryCode(code)
             }
 
-            emit(Result.success(country))
             state.value = NetworkState.IDLE
+            emit(Result.success(country))
 
         } catch (e: Throwable) {
-            emit(Result.failure(e))
             state.value = NetworkState.ERROR
+            emit(Result.failure(e))
         }
     }
 }
