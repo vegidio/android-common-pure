@@ -45,10 +45,10 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
 
-    // Dagger
-    implementation("com.google.dagger:dagger-android:2.25.2")
-    kapt("com.google.dagger:dagger-android-processor:2.25.2")
-    kapt("com.google.dagger:dagger-compiler:2.25.2")
+    // Koin
+    implementation("org.koin:koin-android:2.0.1")
+    implementation("org.koin:koin-androidx-scope:2.0.1")
+    implementation("org.koin:koin-androidx-viewmodel:2.0.1")
 
     // Kotlin X
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2")

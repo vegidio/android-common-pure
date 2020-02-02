@@ -1,17 +1,14 @@
 package io.vinicius.androidcommon
 
 import android.app.Application
-import io.vinicius.androidcommon.di.AppComponent
-import io.vinicius.androidcommon.di.AppModule
-import io.vinicius.androidcommon.di.DaggerAppComponent
+import io.vinicius.androidcommon.di.serviceModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 import timber.log.Timber
 
 class App : Application()
 {
-    companion object {
-        @JvmStatic lateinit var component: AppComponent
-    }
-
     override fun onCreate()
     {
         super.onCreate()
@@ -20,7 +17,7 @@ class App : Application()
         setupTimber()
 
         // Dependency injection
-        setupDagger()
+        setupKoin()
     }
 
     //region Private Methods
@@ -31,13 +28,13 @@ class App : Application()
         }
     }
 
-    private fun setupDagger()
+    private fun setupKoin()
     {
-        component = DaggerAppComponent.builder()
-            .appModule(AppModule(this))
-            .build()
-
-        component.inject(this)
+        startKoin {
+            androidContext(this@App)
+            androidLogger()
+            modules(serviceModule)
+        }
     }
     //endregion
 }

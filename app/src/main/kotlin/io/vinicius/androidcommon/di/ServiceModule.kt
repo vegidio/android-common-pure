@@ -1,36 +1,27 @@
 package io.vinicius.androidcommon.di
 
-import android.content.Context
-import dagger.Module
-import dagger.Provides
 import io.vinicius.androidcommon.service.CountriesService
 import io.vinicius.androidcommon.service.RestFactory
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.dsl.module
 import timber.log.Timber
-import javax.inject.Singleton
 
-@Module
-class ServiceModule
-{
-    @Provides
-    @Singleton
-    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor
-    {
+val serviceModule = module {
+
+    // Logging Interceptor
+    single {
         val logger = object : HttpLoggingInterceptor.Logger {
             override fun log(message: String) = Timber.d(message)
         }
 
-        return HttpLoggingInterceptor(logger).apply {
+        HttpLoggingInterceptor(logger).apply {
             level = HttpLoggingInterceptor.Level.BASIC
         }
     }
 
-    @Provides
-    @Singleton
-    fun provideRestFactory(context: Context, loggingInterceptor: HttpLoggingInterceptor)
-        = RestFactory(context, loggingInterceptor)
-
-    @Provides
-    @Singleton
-    fun provideCountryService(rf: RestFactory) = rf.create(CountriesService::class.java)
+    // CountryService
+    single {
+        val restFactory = RestFactory(get(), get())
+        restFactory.create(CountriesService::class.java)
+    }
 }

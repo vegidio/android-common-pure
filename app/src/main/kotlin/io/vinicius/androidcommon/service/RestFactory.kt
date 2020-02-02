@@ -11,10 +11,8 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
-class RestFactory @Inject constructor(private val context: Context,
-        private val loggingInterceptor: HttpLoggingInterceptor)
+class RestFactory(private val context: Context, private val loggingInterceptor: HttpLoggingInterceptor)
 {
     private val cacheSize = 10 * 1024 * 1024
 
